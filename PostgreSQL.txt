@@ -1,0 +1,178 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+psql (15.3)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+
+postgres=# CREATE TABLE STUDENT(rollno integer PRIMARY KEY, name varchar(30),bcode integer);
+CREATE TABLE
+
+                            
+postgres=# INSERT INTO STUDENT values(1,'Mani',101);
+INSERT 0 1
+postgres=# INSERT INTO STUDENT values(2,'Murali',102);
+INSERT 0 1
+postgres=# INSERT INTO STUDENT values(3,'Saravana',103);
+INSERT 0 1
+postgres=# INSERT INTO STUDENT values(4,'Sampath');
+INSERT 0 1
+
+
+postgres=# SELECT * FROM STUDENT;
+ rollno |   name   | bcode
+--------+----------+-------
+      1 | Mani     |   101
+      2 | Murali   |   102
+      3 | Saravana |   103
+      4 | Sampath  |
+(4 rows)
+
+
+postgres=# CREATE TABLE BRANCH(bcode integer PRIMARY KEY,bname varchar(30));
+
+CREATE TABLE
+
+
+INSERT INTO BRANCH values(101,'CSE');
+INSERT INTO BRANCH values(102,'IT');
+INSERT 0 1
+postgres=# INSERT INTO BRANCH values(103,'Mech');
+INSERT 0 1
+postgres=# INSERT INTO BRANCH values(104,'Civil');
+INSERT 0 1
+
+
+postgres=# SELECT * FROM BRANCH;
+ bcode | bname
+-------+-------
+   101 | CSE
+   102 | IT
+   103 | Mech
+   104 | Civil
+(4 rows)
+
+
+postgres=# SELECT rollno,name FROM STUDENT;
+ rollno |   name
+--------+----------
+      1 | Mani
+      2 | Murali
+      3 | Saravana
+      4 | Sampath
+(4 rows)
+
+
+postgres=# SELECT * FROM BRANCH WHERE bcode=101;
+ bcode | bname
+-------+-------
+   101 | CSE
+(1 row)
+
+
+postgres=# SELECT * FROM STUDENT WHERE rollno=1;
+ rollno | name | bcode
+--------+------+-------
+      1 | Mani |   101
+(1 row)
+
+
+postgres=# SELECT * FROM STUDENT CROSS JOIN BRANCH
+postgres-# ;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   101 | CSE
+      3 | Saravana |   103 |   101 | CSE
+      4 | Sampath  |       |   101 | CSE
+      1 | Mani     |   101 |   102 | IT
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   102 | IT
+      4 | Sampath  |       |   102 | IT
+      1 | Mani     |   101 |   103 | Mech
+      2 | Murali   |   102 |   103 | Mech
+      3 | Saravana |   103 |   103 | Mech
+      4 | Sampath  |       |   103 | Mech
+      1 | Mani     |   101 |   104 | Civil
+      2 | Murali   |   102 |   104 | Civil
+      3 | Saravana |   103 |   104 | Civil
+      4 | Sampath  |       |   104 | Civil
+(16 rows)
+
+
+postgres=# SELECT * FROM STUDENT S, BRANCH B WHERE S.BCODE=B.BCODE;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   103 | Mech
+(3 rows)
+
+
+postgres=# SELECT * FROM STUDENT S, BRANCH B ;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   101 | CSE
+      3 | Saravana |   103 |   101 | CSE
+      4 | Sampath  |       |   101 | CSE
+      1 | Mani     |   101 |   102 | IT
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   102 | IT
+      4 | Sampath  |       |   102 | IT
+      1 | Mani     |   101 |   103 | Mech
+      2 | Murali   |   102 |   103 | Mech
+      3 | Saravana |   103 |   103 | Mech
+      4 | Sampath  |       |   103 | Mech
+      1 | Mani     |   101 |   104 | Civil
+      2 | Murali   |   102 |   104 | Civil
+      3 | Saravana |   103 |   104 | Civil
+      4 | Sampath  |       |   104 | Civil
+(16 rows)
+
+
+                                                   ^
+postgres=# SELECT * FROM STUDENT S LEFT JOIN BRANCH B ON S.BCODE=B.BCODE;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   103 | Mech
+      4 | Sampath  |       |       |
+(4 rows)
+
+
+postgres=# SELECT * FROM STUDENT S RIGHT JOIN BRANCH B ON S.BCODE=B.BCODE;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   103 | Mech
+        |          |       |   104 | Civil
+(4 rows)
+
+
+
+postgres=# SELECT * FROM STUDENT S RIGHT JOIN BRANCH B ON S.BCODE=B.BCODE;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   103 | Mech
+        |          |       |   104 | Civil
+(4 rows)
+
+
+postgres=# SELECT * FROM STUDENT S FULL JOIN BRANCH B ON S.BCODE=B.BCODE;
+ rollno |   name   | bcode | bcode | bname
+--------+----------+-------+-------+-------
+      1 | Mani     |   101 |   101 | CSE
+      2 | Murali   |   102 |   102 | IT
+      3 | Saravana |   103 |   103 | Mech
+      4 | Sampath  |       |       |
+        |          |       |   104 | Civil

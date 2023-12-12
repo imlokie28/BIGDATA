@@ -1,0 +1,20 @@
+use db
+
+db.employee.insertOne({name:"Mani",age:22});
+
+db.employee.insertMany([{name:"Murali",age:22},{name:"Srini",age:23}]);
+
+db.employee.insertMany([{name:"Roshan",age:22},{name:"Balaji",age:23}]);
+
+db.employee.updateOne({name:"Murali"},{$set:{age:50}});
+
+db.employee.updateMany({age:23},{$set:{dept:"IT"}});
+
+db.employee.find().pretty();
+
+db.employee.insertMany([{name:"Raju",age:22},{name:"Ashok",age:23}]);
+
+db.employee.deleteOne({name:"Raju"});
+
+
+
